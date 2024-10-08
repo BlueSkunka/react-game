@@ -6,19 +6,24 @@ import {Button} from "@atom/buttons/Button.tsx";
 import {IconEmail} from "@icons/IconEmail.tsx";
 import {Field, Form, Formik} from "formik";
 import * as Yup from 'yup';
+import registerUser from "@services/authent/registerService.ts";
+import {UserInterface} from "@interfaces/UserInterface.ts";
 
 export function Register() {
+    const submitHandler = async (values: UserInterface) => {
+        const response = await registerUser(values)
+        if (response.error) {
+
+        } else {
+
+        }
+    }
     return (
         <>
             <Card title="Inscription">
                 <Formik
                     initialValues={{lastname: '', firstname: '', email: '', username: '', password: '', passwordConfirm: ''}}
-                    onSubmit={(values, {setSubmitting}) => {
-                        setTimeout(() => {
-                            alert(JSON.stringify(values, null, 2));
-                            setSubmitting(false);
-                        }, 1000);
-                    }}
+                    onSubmit={(values) => { submitHandler(values) }}
                     validationSchema={Yup.object({
                         lastname: Yup.string()
                             .required('Veuillez saisir un nom de famille'),
