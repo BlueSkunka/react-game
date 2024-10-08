@@ -5,6 +5,16 @@
     "lib": ["ES2020", "DOM", "DOM.Iterable"],
     "module": "ESNext",
     "skipLibCheck": true,
+    "baseUrl": ".",
+    "paths": {
+      "@atom/*": ["src/components/atom/*"],
+      "@errors/*": ["src/components/errors/*"],
+      "@icons/*": ["src/components/icons/*"],
+      "@layouts/*": ["src/components/layouts/*"],
+      "@molecule/*": ["src/components/molecule/*"],
+      "@organism/*": ["src/components/organism/*"],
+      "@asset/*": ["src/assets/*"]
+    },
 
     /* Bundler mode */
     "moduleResolution": "bundler",

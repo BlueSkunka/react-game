@@ -1,8 +1,8 @@
-import {TextInput} from "../../atom/inputs/TextInput.tsx";
-import {IconUser} from "../../icons/IconUser.tsx";
-import {IconPassword} from "../../icons/IconPassword.tsx";
-import {Button} from "../../atom/buttons/Button.tsx";
-import {Card} from "../../molecule/Card.tsx";
+import {TextInput} from "@atom/inputs/TextInput.tsx";
+import {IconUser} from "@icons/IconUser.tsx";
+import {IconPassword} from "@icons/IconPassword.tsx";
+import {Button} from "@atom/buttons/Button.tsx";
+import {Card} from "@molecule/Card.tsx";
 import {Field, Form, Formik, FormikProps} from "formik";
 import * as Yup from 'yup';
 

@@ -1,7 +1,7 @@
-import {IconLogo} from "../icons/IconLogo.tsx";
 import {Outlet} from "react-router-dom";
-import {AuthRoutingButtons} from "../molecule/AuthRoutingButtons.tsx";
-import {TitleMain} from "../atom/titles/TitleMain.tsx";
+import {IconLogo} from "@icons/IconLogo.tsx";
+import {TitleMain} from "@atom/titles/TitleMain.tsx";
+import {AuthRoutingButtons} from "@molecule/AuthRoutingButtons.tsx";
 
 export function AuthLayout() {
     return (

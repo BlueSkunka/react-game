@@ -1,6 +1,6 @@
-import {ButtonJoin} from "../atom/buttons/ButtonJoin.tsx";
 import {NavLink} from "react-router-dom";
-import {ButtonJoinItem} from "../atom/buttons/ButtonJoinItem.tsx";
+import {ButtonJoin} from "@atom/buttons/ButtonJoin.tsx";
+import {ButtonJoinItem} from "@atom/buttons/ButtonJoinItem.tsx";
 
 export function AuthRoutingButtons() {
     return (

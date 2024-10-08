@@ -1,5 +1,4 @@
 export function TextInput({field, form, ...props}) {
-    console.log(props, field, form)
     return (
         <>
             {form.touched[field.name] && form.errors[field.name] ? (

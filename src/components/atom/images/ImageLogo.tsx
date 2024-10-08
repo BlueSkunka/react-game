@@ -1,4 +1,4 @@
-import mew from './../../../assets/mew.png'
+import mew from '@asset/mew.png'
 
 export function ImageLogo(props) {
     return (
