@@ -6,7 +6,7 @@ import {Button} from "@atom/buttons/Button.tsx";
 import {IconEmail} from "@icons/IconEmail.tsx";
 import {Field, Form, Formik} from "formik";
 import * as Yup from 'yup';
-import registerUser from "@services/authent/registerService.ts";
+import {registerUser} from "@services/authent/authService.ts";
 import {UserInterface} from "@interfaces/UserInterface.ts";
 import toast from "react-hot-toast";
 import {Toast} from "@atom/toasts/Toast.tsx";
