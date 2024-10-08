@@ -6,6 +6,7 @@ import {Register} from "./components/organism/authent/Register.tsx";
 import {AuthLayout} from "./components/layouts/AuthLayout.tsx";
 import {Error404} from "./components/errors/Error404.tsx";
 import {Login} from "./components/organism/authent/Login.tsx";
+import {Toaster} from "react-hot-toast";
 
 const router = createBrowserRouter([
     {
@@ -27,6 +28,7 @@ const router = createBrowserRouter([
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
+    <div><Toaster position={'top-right'} reverseOrder={false}/></div>
     <RouterProvider router={router} />
   </StrictMode>,
 )

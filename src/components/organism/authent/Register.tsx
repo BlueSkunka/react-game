@@ -8,14 +8,16 @@ import {Field, Form, Formik} from "formik";
 import * as Yup from 'yup';
 import registerUser from "@services/authent/registerService.ts";
 import {UserInterface} from "@interfaces/UserInterface.ts";
+import toast from "react-hot-toast";
+import {Toast} from "@atom/toasts/Toast.tsx";
 
 export function Register() {
     const submitHandler = async (values: UserInterface) => {
         const response = await registerUser(values)
         if (response.error) {
-
+            toast.custom((t) => <Toast t={t} msg={response.error} level="primary" />)
         } else {
-
+            toast.custom((t) => <Toast t={t} msg="Compte crée, veuillez valider votre email" level="success"/>)
         }
     }
     return (
