@@ -6,7 +6,7 @@ import {TitleMain} from "../atom/titles/TitleMain.tsx";
 export function AuthLayout() {
     return (
         <div className="container mx-auto flex flex-col justify-center">
-            <TitleMain title="React Game" />
+            <TitleMain title="Poke Battle" />
             <IconLogo />
             <AuthRoutingButtons/>
             <Outlet />

@@ -1,9 +1,9 @@
-import {IconLogo} from "../../icons/IconLogo.tsx";
+import mew from './../../../assets/mew.png'
 
-export function ImageLogo() {
+export function ImageLogo(props) {
     return (
         <>
-            <IconLogo />
+            <img src={mew} alt="Mew" {...props}/>
         </>
     );
 }
