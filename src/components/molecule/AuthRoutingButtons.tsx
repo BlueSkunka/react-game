@@ -7,10 +7,10 @@ export function AuthRoutingButtons() {
         <>
             <ButtonJoin>
                 <NavLink to="/register">
-                    <ButtonJoinItem label="Inscription" />
+                    <ButtonJoinItem level="primary" label="Inscription" />
                 </NavLink>
                 <NavLink to="/login">
-                    <ButtonJoinItem label="Connexion" />
+                    <ButtonJoinItem level={"secondary"} label="Connexion" />
                 </NavLink>
             </ButtonJoin>
         </>

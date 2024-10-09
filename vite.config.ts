@@ -16,7 +16,8 @@ export default defineConfig({
       "@services": "/src/services",
       "@repositories": "/src/repositories",
       "@interfaces": "/src/interfaces",
-      "@contexts": "/src/contexts"
+      "@contexts": "/src/contexts",
+      "@constants": "/src/constants"
     }
   }
 })

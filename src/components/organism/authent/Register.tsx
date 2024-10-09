@@ -52,7 +52,7 @@ export function Register() {
                         <Field name="username" type="text" placeholder="Nom d'utilisateur" icon={<IconUser/>} component={TextInput}/>
                         <Field name="password" type="password" placeholder="Mot de passe" icon={<IconPassword/>} component={TextInput}/>
                         <Field name="passwordConfirm" type="password" placeholder="Confirmer votre mot de passe" icon={<IconPassword/>} component={TextInput}/>
-                        <Button type="submit" label="S'inscrire" />
+                        <Button level="primary" type="submit" label="S'inscrire" />
                     </Form>
                 </Formik>
             </Card>

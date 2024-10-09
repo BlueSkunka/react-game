@@ -45,7 +45,7 @@ export function Login() {
                         <Form>
                             <Field name="email" type="text" placeholder="Nom d'utilisateur" icon={<IconUser />} component={TextInput} />
                             <Field name="password" type="password" placeholder="Mot de passe" icon={<IconPassword />} component={TextInput} />
-                            <Button type="submit" label="Se connecter" />
+                            <Button level="primary" type="submit" label="Se connecter" />
                         </Form>
                     )}
                 </Formik>
