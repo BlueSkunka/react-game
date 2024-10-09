@@ -16,7 +16,8 @@
       "@asset/*": ["src/assets/*"],
       "@services/*": ["src/services/*"],
       "@repositories/*": ["src/repositories/*"],
-      "@interfaces/*": ["src/interfaces/*"]
+      "@interfaces/*": ["src/interfaces/*"],
+      "@contexts/*": ["src/contexts/*"]
     },
 
     /* Bundler mode */

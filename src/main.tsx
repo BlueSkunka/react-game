@@ -8,6 +8,9 @@ import {Error404} from "./components/errors/Error404.tsx";
 import {Login} from "./components/organism/authent/Login.tsx";
 import {Toaster} from "react-hot-toast";
 import {Validate} from "@organism/authent/Validate.tsx";
+import {AuthProvider} from "@contexts/AuthContext.tsx";
+import {Layout} from "@layouts/Layout.tsx";
+import {Dashboard} from "@organism/game/Dashboard.tsx";
 
 const router = createBrowserRouter([
     {
@@ -28,12 +31,25 @@ const router = createBrowserRouter([
                 element: <Validate />
             }
         ]
+    },
+    {
+        path: "/game",
+        element: <Layout />,
+        errorElement: <Error404/>,
+        children: [
+            {
+                path: "/game/dashboard",
+                element: <Dashboard/>
+            }
+        ]
     }
 ])
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <div><Toaster position={'top-right'} reverseOrder={false}/></div>
-    <RouterProvider router={router} />
+      <AuthProvider>
+          <div><Toaster position={'top-right'} reverseOrder={false}/></div>
+          <RouterProvider router={router}/>
+      </AuthProvider>
   </StrictMode>,
 )

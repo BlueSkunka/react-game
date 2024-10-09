@@ -15,7 +15,8 @@ export default defineConfig({
       "@asset": "/src/components/asset",
       "@services": "/src/services",
       "@repositories": "/src/repositories",
-      "@interfaces": "/src/interfaces"
+      "@interfaces": "/src/interfaces",
+      "@contexts": "/src/contexts"
     }
   }
 })
