@@ -1,9 +1,9 @@
-import mew from '@asset/mew.png'
+import pokebattle from '@asset/pokebattle.png'
 
 export function ImageLogo(props) {
     return (
         <>
-            <img src={mew} alt="Mew" {...props}/>
+            <img className={"w-44"} src={pokebattle} alt="PokeBattle" {...props}/>
         </>
     );
 }

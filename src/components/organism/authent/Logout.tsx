@@ -12,7 +12,7 @@ export function Logout() {
     }
     return (
         <div onClick={logoutUserHandler}>
-            <Button type="error" label="Logout" />
+            <Button level={"danger"} label="Logout" btnWidth="w-16" />
         </div>
     );
 }

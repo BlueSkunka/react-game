@@ -12,7 +12,7 @@ export default defineConfig({
       "@layouts": "/src/components/layouts",
       "@molecule": "/src/components/molecule",
       "@organism": "/src/components/organism",
-      "@asset": "/src/components/asset",
+      "@asset": "/src/assets",
       "@services": "/src/services",
       "@repositories": "/src/repositories",
       "@interfaces": "/src/interfaces",

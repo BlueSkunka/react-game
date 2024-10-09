@@ -2,6 +2,7 @@ import {useContext, useEffect} from "react";
 import {AuthContext} from "@contexts/AuthContext.tsx";
 import {useNavigate} from "react-router-dom";
 import {Logout} from "@organism/authent/Logout.tsx";
+import {Navbar} from "@organism/Navbar.tsx";
 
 export function Layout() {
     const {token, isAuthenticated} = useContext(AuthContext)
@@ -14,6 +15,8 @@ export function Layout() {
     }, [isAuthenticated, navigate])
 
     return (
-        <>LAYOUT <Logout /></>
+        <>
+            <Navbar/>
+        </>
     );
 }
