@@ -31,3 +31,17 @@ export async function userLogin(user) {
         return error;
     })
 }
+
+export async function userValdiateEmail(id: string) {
+    const headers = new Headers();
+    headers.append(RequestHeaderEnum.CONTENT_TYPE, RequestHeaderParamEnum.APPLICATION_JSON);
+
+    return await fetch(import.meta.env.VITE_API_ENDPOINT + "/users/" + id + "/validate", {
+        method: 'GET',
+        headers: headers
+    }).then((response) => {
+        return response.json();
+    }).catch((error) => {
+        return error;
+    })
+}

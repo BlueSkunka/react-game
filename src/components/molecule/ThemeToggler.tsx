@@ -1,5 +1,5 @@
-import {IconLight} from "@icons/IconLight.tsx";
-import {IconDark} from "@icons/IconDark.tsx";
+import {IconLight} from "@atom/icons/IconLight.tsx";
+import {IconDark} from "@atom/icons/IconDark.tsx";
 import {useEffect, useState} from "react";
 
 export function ThemeToggler() {

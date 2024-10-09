@@ -7,6 +7,7 @@ import {AuthLayout} from "./components/layouts/AuthLayout.tsx";
 import {Error404} from "./components/errors/Error404.tsx";
 import {Login} from "./components/organism/authent/Login.tsx";
 import {Toaster} from "react-hot-toast";
+import {Validate} from "@organism/authent/Validate.tsx";
 
 const router = createBrowserRouter([
     {
@@ -21,6 +22,10 @@ const router = createBrowserRouter([
             {
                 path: "/login",
                 element: <Login />
+            },
+            {
+                path: "/validate/:id",
+                element: <Validate />
             }
         ]
     }

@@ -1,9 +1,9 @@
 import {Card} from "@molecule/Card.tsx";
 import {TextInput} from "@atom/inputs/TextInput.tsx";
-import {IconUser} from "@icons/IconUser.tsx";
-import {IconPassword} from "@icons/IconPassword.tsx";
+import {IconUser} from "@atom/icons/IconUser.tsx";
+import {IconPassword} from "@atom/icons/IconPassword.tsx";
 import {Button} from "@atom/buttons/Button.tsx";
-import {IconEmail} from "@icons/IconEmail.tsx";
+import {IconEmail} from "@atom/icons/IconEmail.tsx";
 import {Field, Form, Formik} from "formik";
 import * as Yup from 'yup';
 import {registerUser} from "@services/authent/authService.ts";
