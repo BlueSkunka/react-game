@@ -48,3 +48,7 @@ export default tseslint.config({
   },
 })
 ```
+
+Account:
+sacha@yopmail.com - Password02+
+ondine@yopmail.com - Password02+

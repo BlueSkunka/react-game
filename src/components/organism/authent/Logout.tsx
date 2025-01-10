@@ -4,10 +4,10 @@ import {AuthContext} from "@contexts/AuthContext.tsx";
 import {useNavigate} from "react-router-dom";
 
 export function Logout() {
-    const {saveToken} = useContext(AuthContext)
+    const {saveCredentials} = useContext(AuthContext)
     const navigate = useNavigate()
     function logoutUserHandler() {
-        saveToken(null)
+        saveCredentials(null, null, null)
         navigate("/");
     }
     return (

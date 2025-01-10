@@ -13,17 +13,16 @@ import {AuthContext} from "@contexts/AuthContext.tsx";
 import {useNavigate} from "react-router-dom";
 
 export function Login() {
-    const {saveToken} = useContext(AuthContext);
+    const {saveCredentials, isAuthenticated} = useContext(AuthContext);
     const navigate = useNavigate();
 
     const submitHandler = async (values) => {
         const response = await login(values);
-        console.log(response)
         if (response.error) {
             toast.custom((t) => <Toast t={t} msg={response.error} level='danger' />)
         } else {
-            saveToken(response.token);
-            toast.custom((t) => <Toast t={t} msg="Connexion réussie !" level="success"/>)
+            saveCredentials(response.token, response.userId, response.username);
+            toast.custom((t) => <Toast t={t} msg={"Bienvenue " + response.username} level="success"/>)
             navigate("/game/dashboard")
         }
     }
