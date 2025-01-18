@@ -1,4 +1,4 @@
-import {useContext, useEffect} from "react";
+import {useContext, useEffect, useState} from "react";
 import {AuthContext} from "@contexts/AuthContext.tsx";
 import {useNavigate} from "react-router-dom";
 import {SocketContext} from "@contexts/SocketContext.tsx";
@@ -10,13 +10,21 @@ import {PokeBattleSocketEvents} from "@blueskunka/poke-battle-package";
 
 export function Dashboard() {
     const {isAuthenticated, userId, token} = useContext(AuthContext)
-    const {emitEvent} = useContext(SocketContext)
+    const {socket, emitEvent} = useContext(SocketContext)
     const navigate = useNavigate()
 
     // Controle de connexion
     if (!isAuthenticated()) {
         navigate('/login')
     }
+
+    useEffect(() => {
+        socket.on(PokeBattleSocketEvents.GAME_ROOM_CREATED, (data: object) => {
+            console.log('GAME_ROOM_CREATED', data);
+
+            navigate('/game/lobby/' + data.roomId);
+        })
+    }, []);
 
     const createGame = async () => {
         const response = await gameCreate(userId, token);
@@ -30,7 +38,8 @@ export function Dashboard() {
 
     return (
         <>
-            <Button label={'Create game'} click={() => createGame()} />
+            <Button  label={'Create game'} click={() => createGame()} />
+
         </>
     );
 }

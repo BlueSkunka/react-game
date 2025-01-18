@@ -11,6 +11,7 @@ import {Validate} from "@organism/authent/Validate.tsx";
 import {AuthProvider} from "@contexts/AuthContext.tsx";
 import {Layout} from "@layouts/Layout.tsx";
 import {Dashboard} from "@organism/game/Dashboard.tsx";
+import {Lobby} from "@organism/game/Lobby.tsx";
 
 const router = createBrowserRouter([
     {
@@ -40,6 +41,10 @@ const router = createBrowserRouter([
             {
                 path: "/game/dashboard",
                 element: <Dashboard/>
+            },
+            {
+                path: "/game/lobby/:id",
+                element: <Lobby/>
             }
         ]
     }
