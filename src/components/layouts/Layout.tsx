@@ -1,9 +1,9 @@
 import {useContext, useEffect} from "react";
 import {AuthContext} from "@contexts/AuthContext.tsx";
 import {useNavigate} from "react-router-dom";
-import {Logout} from "@organism/authent/Logout.tsx";
 import {Navbar} from "@organism/Navbar.tsx";
 import {SocketProvider} from "@contexts/SocketContext.tsx";
+import "./../../style.css"
 
 export function Layout() {
     const {token, isAuthenticated} = useContext(AuthContext)
@@ -18,9 +18,11 @@ export function Layout() {
     return (
         <>
             <Navbar/>
-            <SocketProvider>
+            <div className="container px-3 py-3.5 bg-base-200 mx-auto h-full bg-opacity-100">
+                <SocketProvider>
 
-            </SocketProvider>
+                </SocketProvider>
+            </div>
         </>
     );
 }

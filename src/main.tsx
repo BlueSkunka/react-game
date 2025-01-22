@@ -57,9 +57,11 @@ const router = createBrowserRouter([
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-      <AuthProvider>
-          <div><Toaster position={'top-right'} reverseOrder={false}/></div>
-          <RouterProvider router={router}/>
-      </AuthProvider>
+      <div className={"min-h-screen bg-[length:100px_100px] bg-[url('/pokeball-de-miraidon.png')]"}>
+          <AuthProvider>
+              <div><Toaster position={'top-right'} reverseOrder={false}/></div>
+              <RouterProvider router={router}/>
+          </AuthProvider>
+      </div>
   </StrictMode>,
 )

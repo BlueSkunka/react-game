@@ -89,26 +89,24 @@ export function List() {
 
     return (
         <>
-            <div className="container mx-auto">
-                <div className="flex inline">
-                    <h2>Games list</h2>
-                    <Button label={'Refresh'} btnWidth={"btn-sm"} click={listGames} />
-                </div>
-                <div className="overflow-x-auto">
-                    <table className="table table-zebra">
-                        <thead>
-                            <tr>
-                                <th>Game creator</th>
-                                <th></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {array}
-                        </tbody>
-                    </table>
-                </div>
-                {joinForm}
+            <div className="flex inline">
+                <h2>Games list</h2>
+                <Button label={'Refresh'} btnWidth={"btn-sm"} click={listGames} />
             </div>
+            <div className="overflow-x-auto">
+                <table className="table table-zebra">
+                    <thead>
+                        <tr>
+                            <th>Game creator</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {array}
+                    </tbody>
+                </table>
+            </div>
+            {joinForm}
         </>
     );
 }

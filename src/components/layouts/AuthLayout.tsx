@@ -15,7 +15,7 @@ export function AuthLayout() {
     }
 
     return (
-        <div className="container mx-auto flex flex-col justify-center">
+        <div className="container px-2 py-2.5 bg-base-200 mx-auto flex flex-col justify-center">
             <ThemeToggler />
             <TitleMain title="Poke Battle" />
             <IconLogo />
