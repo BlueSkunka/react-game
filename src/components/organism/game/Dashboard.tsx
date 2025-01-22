@@ -6,7 +6,7 @@ import {Button} from "@atom/buttons/Button.tsx";
 import {gameCreate} from "@repositories/gameRepository.ts";
 import toast from "react-hot-toast";
 import {Toast} from "@atom/toasts/Toast.tsx";
-import {PokeBattleSocketEvents} from "@blueskunka/poke-battle-package";
+import {PokeBattleSocketEvents} from "@blueskunka/poke-battle-package/dist/enums/PokeBattleSocketEvents";
 
 export function Dashboard() {
     const {isAuthenticated, userId, token} = useContext(AuthContext)
@@ -18,28 +18,26 @@ export function Dashboard() {
         navigate('/login')
     }
 
-    useEffect(() => {
-        socket.on(PokeBattleSocketEvents.GAME_ROOM_CREATED, (data: object) => {
-            console.log('GAME_ROOM_CREATED', data);
-
-            navigate('/game/lobby/' + data.roomId);
-        })
-    }, []);
-
     const createGame = async () => {
         const response = await gameCreate(userId, token);
         if (response.error) {
+            console.error(response.error)
             toast.custom((t) => <Toast t={t} msg={"Erreur lors de la création de la partie"} level={"danger"}/>)
         } else {
-            console.log(response)
+            console.log("create game", response)
             emitEvent(PokeBattleSocketEvents.GAME_CREATE_ROOM, response);
+            navigate('/game/lobby/' + response.gameId);
         }
+    }
+
+    const displayGames = async () => {
+        navigate("/game/list")
     }
 
     return (
         <>
             <Button  label={'Create game'} click={() => createGame()} />
-
+            <Button label={'Join game'} click={() => displayGames()} />
         </>
     );
 }

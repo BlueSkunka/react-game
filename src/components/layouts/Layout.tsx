@@ -19,7 +19,7 @@ export function Layout() {
         <>
             <Navbar/>
             <SocketProvider>
-                My game
+
             </SocketProvider>
         </>
     );

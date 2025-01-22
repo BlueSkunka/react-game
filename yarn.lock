@@ -7,10 +7,10 @@
   resolved "https://registry.yarnpkg.com/@alloc/quick-lru/-/quick-lru-5.2.0.tgz#7bf68b20c0a350f936915fcae06f58e32007ce30"
   integrity sha512-UrcABB+4bUrFABwbluTIBErXwvbsU/V7TZWfmbgJfbkwiBuziS9gxdODUyuiecfdGQ85jglMW6juS3+z5TsKLw==
 
-"@blueskunka/poke-battle-package@^1.0.3":
-  version "1.0.3"
-  resolved "https://registry.yarnpkg.com/@blueskunka/poke-battle-package/-/poke-battle-package-1.0.3.tgz#f15fa7f8f246924fd0b201295efa66acb4f34de8"
-  integrity sha512-UJTONW1DalIlpr8WlZt68H481y+NVndeqIqeAtqUHz1PJARpun4gbdDL/SFvLwHmAc0uzct836mByxxCf3XkVg==
+"@blueskunka/poke-battle-package@^2.0.1":
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/@blueskunka/poke-battle-package/-/poke-battle-package-2.0.1.tgz#a5c91a6c4eff5765e14d434cfa83d2dffcef6e9a"
+  integrity sha512-xr81w1Q4STveuVjD4Pe6vJosmW3Zlyb7/PIwXWBkolfh3yJgbPP62uZfY+xUqHuGOyRtVJ6wp+j5hSjBfg1YRw==
 
 "@esbuild/aix-ppc64@0.21.5":
   version "0.21.5"
