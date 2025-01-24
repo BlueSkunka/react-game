@@ -5,7 +5,8 @@ export const bgVariants = {
     error: 'bg-error',
     danger: 'bg-error',
     primary: 'bg-primary',
-    secondary: 'bg-secondary'
+    secondary: 'bg-secondary',
+    fatal: 'bg-fatal'
 };
 
 export const borderVariants = {
@@ -15,7 +16,8 @@ export const borderVariants = {
     error: 'border-error',
     danger: 'border-error',
     primary: 'border-primary',
-    secondary: 'border-secondary'
+    secondary: 'border-secondary',
+    fatal: 'border-fatal'
 };
 
 export const buttonVariants = {
@@ -25,5 +27,6 @@ export const buttonVariants = {
     error: 'btn-error',
     danger: 'btn-error',
     primary: 'btn-primary',
-    secondary: 'btn-secondary'
+    secondary: 'btn-secondary',
+    fatal: 'btn-fatal'
 }

@@ -11,3 +11,8 @@ export function Toast(props) {
         </span>
     );
 }
+
+Toast.defaultProps = {
+    level: "fatal",
+    msg: "Missing message"
+}

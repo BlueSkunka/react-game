@@ -26,12 +26,10 @@ export function Dashboard() {
         } else {
             console.log("create game", response)
             emitEvent(PokeBattleSocketEvents.GAME_CREATE_ROOM, response);
-            navigate('/game/lobby/' + response.gameId);
         }
     }
 
     const displayGames = async () => {
-        navigate("/game/list")
     }
 
     return (

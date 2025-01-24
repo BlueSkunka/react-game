@@ -23,7 +23,7 @@ export function Login() {
         } else {
             saveCredentials(response.token, response.userId, response.username);
             toast.custom((t) => <Toast t={t} msg={"Bienvenue " + response.username} level="success"/>)
-            navigate("/game/dashboard")
+            navigate("/game/")
         }
     }
     return (

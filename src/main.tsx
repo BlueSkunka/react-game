@@ -13,6 +13,7 @@ import {Layout} from "@layouts/Layout.tsx";
 import {Dashboard} from "@organism/game/Dashboard.tsx";
 import {Lobby} from "@organism/game/Lobby.tsx";
 import {List} from "@organism/game/List.tsx";
+import {PokeBattle} from "@organism/game/PokeBattle.tsx";
 
 const router = createBrowserRouter([
     {
@@ -40,16 +41,8 @@ const router = createBrowserRouter([
         errorElement: <Error404/>,
         children: [
             {
-                path: "/game/dashboard",
-                element: <Dashboard/>
-            },
-            {
-                path: "/game/lobby/:id",
-                element: <Lobby/>
-            },
-            {
-                path: "/game/list",
-                element: <List/>
+              path: "/game/",
+              element:<PokeBattle/>
             }
         ]
     }
@@ -57,7 +50,7 @@ const router = createBrowserRouter([
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-      <div className={"min-h-screen bg-[length:100px_100px] bg-[url('/pokeball-de-miraidon.png')]"}>
+      <div className={"min-h-screen bg-[length:100px_100px] bg-[url('/pokeball.png')]"}>
           <AuthProvider>
               <div><Toaster position={'top-right'} reverseOrder={false}/></div>
               <RouterProvider router={router}/>

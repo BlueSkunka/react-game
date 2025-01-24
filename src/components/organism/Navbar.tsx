@@ -13,7 +13,7 @@ export function Navbar() {
         <>
             <div className="navbar bg-neutral">
                 <div className="navbar-start">
-                    <NavLink to={"/game/dashboard"}>
+                    <NavLink to={"/game/"}>
                         <ImageLogo />
                     </NavLink>
                 </div>

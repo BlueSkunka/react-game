@@ -1,16 +1,29 @@
 import {createContext, useEffect, useState} from "react";
-import {useNavigate} from "react-router-dom";
 
-export const AuthContext = createContext();
+interface AuthContextInterface {
+    token: string,
+    saveCredentials: (newToken: string, newUserId: string, newUsername: string) => void,
+    isAuthenticated: () => boolean,
+    username: string,
+    userId: string
+}
+
+export const AuthContext = createContext<AuthContextInterface>({
+    token: "",
+    saveCredentials: (newToken: string, newUserId: string, newUsername: string) => {},
+    isAuthenticated: () => {return false},
+    username: "",
+    userId: ""
+});
 
 export const AuthProvider = ({children}) => {
-    const [token, setToken] = useState(() => sessionStorage.getItem("token") || null);
+    const [token, setToken] = useState(() => sessionStorage.getItem("token") || "");
     const [username, setUsername] = useState('');
     const [userId, setUserId] = useState('')
 
     // Save the user credentials in local storage
     useEffect(() => {
-        if (token && username && userId) {
+        if ("" != token && "" != username && "" != userId) {
             sessionStorage.setItem("token", token)
             sessionStorage.setItem("username", username)
             sessionStorage.setItem("userId", userId)
@@ -22,15 +35,15 @@ export const AuthProvider = ({children}) => {
     }, [token, username, userId])
 
     // Save the new token
-    const saveCredentials = (newToken, newUserId, newUsername) => {
+    const saveCredentials = (newToken: string, newUserId: string, newUsername: string) => {
         setToken(newToken);
         setUsername(newUsername);
         setUserId(newUserId);
     }
 
     // Check if user is authenticated
-    const isAuthenticated = () => {
-        return token != null;
+    const isAuthenticated: () => boolean = (): boolean => {
+        return token != "";
     }
 
     return (
