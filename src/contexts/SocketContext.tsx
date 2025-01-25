@@ -35,7 +35,7 @@ export const SocketContext = createContext<SocketContextInterface>({
  * @constructor
  */
 export const SocketProvider = ({children}) => {
-    const [socket, setSocket] = useState<Socket | null>(null)
+    const [socket, setSocket] = useState<Socket>(io())
     const events: Array<string> = []
 
     /**
