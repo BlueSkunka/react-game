@@ -1,31 +1,35 @@
-import {useContext, useEffect, useState} from "react";
+import {useContext} from "react";
 import {AuthContext} from "@contexts/AuthContext.tsx";
-import {useNavigate} from "react-router-dom";
 import {SocketContext} from "@contexts/SocketContext.tsx";
 import {Button} from "@atom/buttons/Button.tsx";
 import {gameCreate} from "@repositories/gameRepository.ts";
 import toast from "react-hot-toast";
 import {Toast} from "@atom/toasts/Toast.tsx";
 import {PokeBattleSocketEvents} from "@blueskunka/poke-battle-package/dist/enums/PokeBattleSocketEvents";
+import {GameInterface} from "@interfaces/GameInterface.ts";
+import * as React from "react";
 
-export function Dashboard() {
-    const {isAuthenticated, userId, token} = useContext(AuthContext)
-    const {socket, emitEvent} = useContext(SocketContext)
-    const navigate = useNavigate()
-
-    // Controle de connexion
-    if (!isAuthenticated()) {
-        navigate('/login')
+export function Dashboard(
+    {setGame}: {
+        setGame: React.Dispatch<React.SetStateAction<GameInterface | null>>
     }
+) {
+    const {userId, token} = useContext(AuthContext)
+    const {emitEvent} = useContext(SocketContext)
+
 
     const createGame = async () => {
         const response = await gameCreate(userId, token);
+        console.log("create game", response)
         if (response.error) {
             console.error(response.error)
             toast.custom((t) => <Toast t={t} msg={"Erreur lors de la création de la partie"} level={"danger"}/>)
         } else {
-            console.log("create game", response)
-            emitEvent(PokeBattleSocketEvents.GAME_CREATE_ROOM, response);
+            const game: GameInterface = response.game
+            console.log("game created", game)
+            toast.custom((t) => <Toast t={t} msg={"Création de la partie réussie"} level={"success"}/>)
+            emitEvent(PokeBattleSocketEvents.GAME_CREATE_ROOM, {gameId: game.id});
+            setGame(game)
         }
     }
 
@@ -38,4 +42,8 @@ export function Dashboard() {
             <Button label={'Join game'} click={() => displayGames()} />
         </>
     );
+}
+
+Dashboard.defaultProps = {
+    setGame: () => {}
 }

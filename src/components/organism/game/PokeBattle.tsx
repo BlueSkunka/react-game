@@ -7,6 +7,7 @@ import {Error404} from "@errors/Error404.tsx";
 import {Dashboard} from "@organism/game/Dashboard.tsx";
 import {useNavigate} from "react-router-dom";
 import {AuthContext} from "@contexts/AuthContext.tsx";
+import {Lobby} from "@organism/game/Lobby.tsx";
 
 export function PokeBattle() {
     const {isAuthenticated, userId, token} = useContext(AuthContext)
@@ -50,9 +51,18 @@ export function PokeBattle() {
                 <Button label={"Join"} click={joinRoom} />
                 <Button label={"Listen"} click={listenEventHandler} />
                 <Button label={"Mute"} click={muteHandler} />
-                <Dashboard />
+                <Dashboard setGame={setGame} />
             </>
         );
+    }
+
+    if (game) {
+        console.log("PokeBattle.tsx", game)
+        return (
+            <>
+                <Lobby game={game} />
+            </>
+        )
     }
 
     return (
