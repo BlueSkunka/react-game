@@ -17,9 +17,9 @@ import {PokeBattleGameActions} from "@blueskunka/poke-battle-package/dist/enums/
 
 export function List() {
     const {isAuthenticated, userId, token} = useContext(AuthContext)
-    const {socket, emitEvent} = useContext(SocketContext);
+    const {emitEvent} = useContext(SocketContext);
     const navigate = useNavigate()
-    const [games, setGames] = useState([])
+    const [games, setGames] = useState<GameInterface[]>([])
 
     // Contrôle de la connexion
     if (!isAuthenticated()) {

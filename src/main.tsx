@@ -10,9 +10,6 @@ import {Toaster} from "react-hot-toast";
 import {Validate} from "@organism/authent/Validate.tsx";
 import {AuthProvider} from "@contexts/AuthContext.tsx";
 import {Layout} from "@layouts/Layout.tsx";
-import {Dashboard} from "@organism/game/Dashboard.tsx";
-import {Lobby} from "@organism/game/Lobby.tsx";
-import {List} from "@organism/game/List.tsx";
 import {PokeBattle} from "@organism/game/PokeBattle.tsx";
 
 const router = createBrowserRouter([
