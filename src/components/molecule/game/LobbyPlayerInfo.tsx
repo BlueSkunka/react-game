@@ -75,7 +75,7 @@ export function LobbyPlayerInfo(
     let badge: Element;
     let readyButton: Element;
     if (!isReady) {
-        badge = <Badge level={'danger'} content={'Player is not ready'} />
+        badge = <Badge level={'error'} content={'Player is not ready'} />
         readyButton = <Button btnWidth={'btn-sm'}
                               type={'button'}
                               level={'primary'}
