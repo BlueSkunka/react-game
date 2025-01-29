@@ -4,6 +4,7 @@ import {Outlet} from "react-router-dom";
 import toast from "react-hot-toast";
 import {Toast} from "@atom/toasts/Toast.tsx";
 import {MessageLevelEnum} from "../enums/MessageLevelEnum.ts";
+import {GameProvider} from "@contexts/GameContext.tsx";
 
 interface SocketContextInterface {
     socket: Socket,
@@ -130,7 +131,7 @@ export const SocketProvider = ({children}) => {
     return (
         <SocketContext.Provider value={{socket, sendToast, isSocketConnected, emitEvent, listenEvent, muteEvent}} >
             {children}
-            <Outlet/>
+            <Outlet />
         </SocketContext.Provider>
     )
 }

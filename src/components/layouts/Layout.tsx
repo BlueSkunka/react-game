@@ -10,6 +10,7 @@ export function Layout() {
     const navigate = useNavigate()
 
     useEffect(() => {
+        console.info("isAuthenticated ? ", isAuthenticated())
         if (!isAuthenticated()) {
             navigate("/login")
         }
