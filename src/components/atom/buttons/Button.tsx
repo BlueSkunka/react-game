@@ -11,7 +11,7 @@ export function Button(
     } : {
         btnWidth: 'btn-wide' | 'btn-lg' | '' | 'btn-sm' | 'btn-xs',
         type: "button" | "submit" | "reset" | undefined,
-        level: string,
+        level: 'primary' | 'secondary' | 'info' | 'success' | 'warning' | 'danger' | 'fatal',
         label: string,
         click: () => void,
         disabled: "btn-disabled" | ""

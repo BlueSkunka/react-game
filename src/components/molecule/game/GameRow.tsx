@@ -39,7 +39,15 @@ export function GameRow(
                     {game.creator}
                 </td>
                 <td>
-                    <Button label={"Join game"} btnWidth={"btn-sm"} click={joinGame} />
+                    {game.id}
+                </td>
+                <td>
+                    <Button label={"Join game"}
+                            btnWidth={"btn-sm"}
+                            click={joinGame}
+                            type={'button'}
+                            level={"secondary"}
+                            disabled={""} />
                 </td>
             </tr>
         </>

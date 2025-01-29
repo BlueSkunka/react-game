@@ -1,7 +1,5 @@
 import toast from "react-hot-toast";
 import {bgVariants, borderVariants} from "@constants/variants/ColorVariants.ts";
-import Element = React.JSX.Element;
-import {ReactElement} from "react";
 
 export function Toast(
     {t, level, msg}:
@@ -19,9 +17,4 @@ export function Toast(
             <span>{msg}</span>
         </span>
     );
-}
-
-Toast.defaultProps = {
-    level: "fatal",
-    msg: "Missing message"
 }

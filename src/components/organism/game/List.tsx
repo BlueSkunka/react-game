@@ -1,4 +1,4 @@
-import {useContext, useEffect, useState} from "react";
+import {SetStateAction, useContext, useEffect, useState} from "react";
 import {AuthContext} from "@contexts/AuthContext.tsx";
 import {useNavigate} from "react-router-dom";
 import {gameJoin, gameList} from "@repositories/gameRepository.ts";
@@ -14,17 +14,18 @@ import * as Yup from 'yup';
 import {IconPassword} from "@atom/icons/IconPassword.tsx";
 import {TextInput} from "@atom/inputs/TextInput.tsx";
 import {PokeBattleGameActions} from "@blueskunka/poke-battle-package/dist/enums/PokeBattleGameActions";
+import * as React from "react";
 
-export function List() {
-    const {isAuthenticated, userId, token} = useContext(AuthContext)
+export function List(
+    {setGame}:
+    {
+        setGame: React.Dispatch<React.SetStateAction<GameInterface | null>>
+    }
+) {
+    const {userId, token} = useContext(AuthContext)
     const {emitEvent} = useContext(SocketContext);
-    const navigate = useNavigate()
     const [games, setGames] = useState<GameInterface[]>([])
 
-    // Contrôle de la connexion
-    if (!isAuthenticated()) {
-        navigate('/login');
-    }
 
     const listGames = async () => {
         const response = await gameList(token);
@@ -42,48 +43,51 @@ export function List() {
     }, []);
 
     // Formulaire pour rejoindre une partie
-    const joinGame = async (gameId: string) => {
-        console.log("Joining game".concat(gameId))
-        const response = await gameJoin(token, userId, gameId, PokeBattleGameActions.JOIN);
-        if (response.error) {
-            toast.custom((t) => <Toast t={t} msg={response.error} level={"danger"}/>)
-        } else {
-            console.log("joinging game 2 from search", gameId, response)
-            emitEvent(PokeBattleSocketEvents.GAME_PLAYER_JOINING, {roomId: gameId, userId: userId})
-            navigate("/game/lobby/" + gameId)
-        }
-    }
+    // const joinGame = async (gameId: string) => {
+    //     console.log("Joining game".concat(gameId))
+    //     const response = await gameJoin(token, userId, gameId, PokeBattleGameActions.JOIN);
+    //     if (response.error) {
+    //         toast.custom((t) => <Toast t={t} msg={response.error} level={"danger"}/>)
+    //     } else {
+    //         console.log("joinging game 2 from search", gameId, response)
+    //         emitEvent(PokeBattleSocketEvents.GAME_PLAYER_JOINING, {roomId: gameId, userId: userId})
+    //         navigate("/game/lobby/" + gameId)
+    //     }
+    // }
 
-    const joinForm: JSX.Element = <Formik
-        initialValues={{code: ''}}
-        onSubmit={(values) => {joinGame(values.code)}}
-        validationSchema={Yup.object({
-            code: Yup.string()
-                .required('Veuillez saisir un code de partie')
-                .min(8, 'Un code doit faire 8 caractères')
-                .max(8, 'Un code doit faire 8 caractères')
-        })}
-        >
-        <Form>
-            <Field name="code" type="text" placeholder={"Code"} icon={<IconPassword />} component={TextInput} />
-            <Button level={'primary'} type={'submit'} laebl={'Join game'} btnWidth={'btn-sm'} />
-        </Form>
-    </Formik>
+    // const joinForm: JSX.Element = <Formik
+    //     initialValues={{code: ''}}
+    //     onSubmit={(values) => {joinGame(values.code)}}
+    //     validationSchema={Yup.object({
+    //         code: Yup.string()
+    //             .required('Veuillez saisir un code de partie')
+    //             .min(8, 'Un code doit faire 8 caractères')
+    //             .max(8, 'Un code doit faire 8 caractères')
+    //     })}
+    //     >
+    //     <Form>
+    //         <Field name="code" type="text" placeholder={"Code"} icon={<IconPassword />} component={TextInput} />
+    //         <Button level={'primary'} type={'submit'} laebl={'Join game'} btnWidth={'btn-sm'} />
+    //     </Form>
+    // </Formik>
 
 
-    if (games.length == 0) {
-        return (
-            <>
-                No game available
-                {joinForm}
-            </>
-        );
-    }
+    // if (games.length == 0) {
+    //     return (
+    //         <>
+    //             No game available
+    //             {joinForm}
+    //         </>
+    //     );
+    // }
 
     const array: JSX.Element[] = [];
     games.forEach((game) => {
         array.push(
-            <GameRow game={game} token={token} userId={userId}/>
+            <GameRow game={game}
+                     token={token}
+                     userId={userId}
+                     setGame={setGame}/>
         )
     })
 
@@ -91,13 +95,19 @@ export function List() {
         <>
             <div className="flex inline">
                 <h2>Games list</h2>
-                <Button label={'Refresh'} btnWidth={"btn-sm"} click={listGames} />
+                <Button label={'Refresh'}
+                        btnWidth={"btn-sm"}
+                        click={listGames}
+                        type={'button'}
+                        level={"secondary"}
+                        disabled={""} />
             </div>
             <div className="overflow-x-auto">
                 <table className="table table-zebra">
                     <thead>
                         <tr>
                             <th>Game creator</th>
+                            <th>Game ID</th>
                             <th></th>
                         </tr>
                     </thead>
@@ -106,7 +116,7 @@ export function List() {
                     </tbody>
                 </table>
             </div>
-            {joinForm}
+            {/*{joinForm}*/}
         </>
     );
 }

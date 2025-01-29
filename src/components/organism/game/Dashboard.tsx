@@ -11,6 +11,7 @@ import * as React from "react";
 import {MessageLevelEnum} from "../../../enums/MessageLevelEnum.ts";
 import Element = React.JSX.Element;
 import {GameRow} from "@molecule/game/GameRow.tsx";
+import {List} from "@organism/game/List.tsx";
 
 export function Dashboard(
     {setGame}: {
@@ -19,8 +20,6 @@ export function Dashboard(
 ) {
     const {userId, token} = useContext(AuthContext)
     const {emitEvent} = useContext(SocketContext)
-    const [games, setGames] = useState<GameInterface[]>([])
-
 
     const createGame = async () => {
         const response = await gameCreate(userId, token);
@@ -37,47 +36,17 @@ export function Dashboard(
         }
     }
 
-    const displayGames = async () => {
-        const response = await gameList(token);
-        console.log("display games", response)
-        if (response.error) {
-            console.error(response.error)
-            toast.custom((t) => <Toast t={t} msg={response.error} level={MessageLevelEnum.FATAL} />)
-        } else {
-            const gameArray: GameInterface[] = response;
-            setGames(gameArray)
-        }
-    }
-
-    const array: Element[] = [];
-    games.forEach((game) => {
-        array.push(
-            <GameRow game={game} token={token} userId={userId} setGame={setGame} />
-        )
-    })
-
     return (
         <>
-            <Button  label={'Create game'} click={() => createGame()} />
-            <Button label={'Join game'} click={() => displayGames()} />
-
-            <div className="flex inline">
-                <h2>Games list</h2>
-                <Button label={'Refresh'} btnWidth={"btn-sm"} click={displayGames} />
+            <div className="mb-4">
+                <Button label={'Create game'}
+                        click={() => createGame()}
+                        btnWidth={"btn-wide"}
+                        type={'button'}
+                        level={'primary'}
+                        disabled={""} />
             </div>
-            <div className="overflow-x-auto">
-                <table className="table table-zebra">
-                    <thead>
-                    <tr>
-                        <th>Game creator</th>
-                        <th></th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                        {array}
-                    </tbody>
-                </table>
-            </div>
+            <List setGame={setGame} />
         </>
     );
 }
