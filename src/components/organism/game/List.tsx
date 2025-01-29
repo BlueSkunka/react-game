@@ -23,9 +23,21 @@ export function List(
     }
 ) {
     const {userId, token} = useContext(AuthContext)
-    const {emitEvent} = useContext(SocketContext);
+    const {bulkMuteEvents} = useContext(SocketContext);
     const [games, setGames] = useState<GameInterface[]>([])
 
+    // Mute all available events on component destroy
+    useEffect(() => {
+        console.log("Component is rendered")
+
+        return () => {
+            console.log("Component is being destroy")
+            bulkMuteEvents([
+
+            ])
+            console.log("Component is now destroyed")
+        }
+    }, []);
 
     const listGames = async () => {
         const response = await gameList(token);

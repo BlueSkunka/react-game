@@ -1,4 +1,4 @@
-import {useContext, useState} from "react";
+import {useContext, useEffect, useState} from "react";
 import {AuthContext} from "@contexts/AuthContext.tsx";
 import {SocketContext} from "@contexts/SocketContext.tsx";
 import {Button} from "@atom/buttons/Button.tsx";
@@ -19,7 +19,19 @@ export function Dashboard(
     }
 ) {
     const {userId, token} = useContext(AuthContext)
-    const {emitEvent} = useContext(SocketContext)
+    const {emitEvent, bulkMuteEvents} = useContext(SocketContext)
+
+    // Mute all available event on component destroy
+    useEffect(() => {
+        console.log("Component is rendered")
+        return () => {
+            console.log("Destroying component")
+            bulkMuteEvents([
+
+            ])
+            console.log("Component is now destroyed")
+        }
+    }, []);
 
     const createGame = async () => {
         const response = await gameCreate(userId, token);
@@ -49,8 +61,4 @@ export function Dashboard(
             <List setGame={setGame} />
         </>
     );
-}
-
-Dashboard.defaultProps = {
-    setGame: () => {}
 }

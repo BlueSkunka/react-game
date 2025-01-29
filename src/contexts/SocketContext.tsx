@@ -4,7 +4,6 @@ import {Outlet} from "react-router-dom";
 import toast from "react-hot-toast";
 import {Toast} from "@atom/toasts/Toast.tsx";
 import {MessageLevelEnum} from "../enums/MessageLevelEnum.ts";
-import {GameProvider} from "@contexts/GameContext.tsx";
 
 interface SocketContextInterface {
     socket: Socket,
@@ -12,7 +11,8 @@ interface SocketContextInterface {
     isSocketConnected: () => boolean,
     emitEvent: (event: string, data: object) => void,
     listenEvent: (event: string, callback: (data: object) => void) => void,
-    muteEvent: (event: string) => void
+    muteEvent: (event: string) => void,
+    bulkMuteEvents: (events: string[]) => void
 }
 
 export const SocketContext = createContext<SocketContextInterface>({
@@ -21,7 +21,8 @@ export const SocketContext = createContext<SocketContextInterface>({
     isSocketConnected: () => false,
     emitEvent: (event: string, data: object) => {},
     listenEvent: (event: string, callback: (data: object) => void) => {},
-    muteEvent: (event: string) => {}
+    muteEvent: (event: string) => {},
+    bulkMuteEvents: (events: string[]) => {}
 });
 
 /**
@@ -37,7 +38,7 @@ export const SocketContext = createContext<SocketContextInterface>({
  */
 export const SocketProvider = ({children}) => {
     const [socket, setSocket] = useState<Socket>(io())
-    const events: Array<string> = []
+    const listEvents: Array<string> = []
 
     /**
      * TODO : Transférer cette méthode utilitaire dans un autre Provider
@@ -62,7 +63,7 @@ export const SocketProvider = ({children}) => {
         }
 
         return () => {
-            if (null !== socket) bulkMuteEvent().then(() => socket.disconnect())
+            if (null !== socket) muteAllEvents().then(() => socket.disconnect())
         }
     }, []);
 
@@ -98,6 +99,7 @@ export const SocketProvider = ({children}) => {
     const listenEvent = async (event: string, callback: (data: object) => void) => {
         if (isSocketConnected()) {
             console.log("socket listen event", socket.id, event)
+            listEvents.push(event)
             socket.on(event, callback)
         }
     }
@@ -109,17 +111,31 @@ export const SocketProvider = ({children}) => {
     const muteEvent = async (event: string) => {
         if (isSocketConnected()) {
             console.log("socket mute event", socket.id, event)
+            if (listEvents.includes(event)) listEvents.splice(listEvents.indexOf(event), 1)
             socket.off(event)
+        }
+    }
+
+    /**
+     * Fin d'écoute massive pour tous les évènements transmis en paramètre
+     * @param events Liste des évènements
+     */
+    const bulkMuteEvents = async (events: string[]) => {
+        if (isSocketConnected()) {
+            console.log("socket bulk mute", socket.id)
+            events.forEach((event) => {
+                muteEvent(event)
+            })
         }
     }
 
     /**
      * Fin d'écoute massive de tous les évènements en écoute transmis par le serveur socket.io
      */
-    const bulkMuteEvent = async () => {
+    const muteAllEvents = async () => {
         if (isSocketConnected()) {
-            console.log("socket bulk mute", socket.id)
-            events.forEach((event) => {
+            console.log("socket mute all events", socket.id)
+            listEvents.forEach((event) => {
                 muteEvent(event)
             })
         }
@@ -129,7 +145,7 @@ export const SocketProvider = ({children}) => {
 
 
     return (
-        <SocketContext.Provider value={{socket, sendToast, isSocketConnected, emitEvent, listenEvent, muteEvent}} >
+        <SocketContext.Provider value={{socket, sendToast, isSocketConnected, emitEvent, listenEvent, muteEvent, bulkMuteEvents}} >
             {children}
             <Outlet />
         </SocketContext.Provider>

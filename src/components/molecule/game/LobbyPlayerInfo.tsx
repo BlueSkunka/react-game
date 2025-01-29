@@ -2,7 +2,7 @@ import * as React from "react";
 import {PokeBattleSocketEvents} from "@blueskunka/poke-battle-package/dist/enums/PokeBattleSocketEvents";
 import toast from "react-hot-toast";
 import {Toast} from "@atom/toasts/Toast.tsx";
-import {useContext, useState} from "react";
+import {useContext, useEffect, useState} from "react";
 import {SocketContext} from "@contexts/SocketContext.tsx";
 import {Badge} from "@atom/Badge.tsx";
 import {Button} from "@atom/buttons/Button.tsx";
@@ -17,9 +17,23 @@ export function LobbyPlayerInfo(
         game: GameInterface | null
     }
 ) {
-    const {listenEvent, muteEvent, emitEvent} = useContext(SocketContext)
+    const {listenEvent, muteEvent, emitEvent, bulkMuteEvents} = useContext(SocketContext)
     const {userId} = useContext(AuthContext)
     const [isReady, setIsReady] = useState<boolean>(false)
+
+    // Mute all available events on destroy
+    useEffect(() => {
+        console.log("LobbyPlayerInfo.tsx rendered")
+        return () => {
+            console.log("Destroying component")
+            bulkMuteEvents([
+                PokeBattleSocketEvents.GAME_PLAYER_JOINED,
+                PokeBattleSocketEvents.GAME_PLAYER_READY,
+                PokeBattleSocketEvents.GAME_PLAYER_UNREADY
+            ])
+            console.log("Component is now destroyed")
+        }
+    }, []);
 
     console.log("Lobby player is ", player)
     console.log("Lobby creator is ", game?.creator)

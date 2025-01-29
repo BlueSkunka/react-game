@@ -1,4 +1,4 @@
-import {useContext, useState} from "react";
+import {useContext, useEffect, useState} from "react";
 import {GameInterface} from "@interfaces/GameInterface.ts";
 import {LobbyPlayerInfo} from "@molecule/game/LobbyPlayerInfo.tsx";
 import {BattleScreen} from "@organism/game/BattleScreen.tsx";
@@ -17,9 +17,25 @@ export function Lobby(
         setGame:  React.Dispatch<React.SetStateAction<GameInterface | null>>
     }
 ) {
-    const {emitEvent, muteEvent, listenEvent} = useContext(SocketContext);
+    const {emitEvent, muteEvent, listenEvent, bulkMuteEvents} = useContext(SocketContext);
     const {userId} = useContext(AuthContext)
 
+    // Mute available on destroy
+    useEffect(() => {
+        console.log("Lobby.tsx is rendered")
+
+        return () => {
+            console.log("Lobby.tsx is muting event")
+            bulkMuteEvents([
+                PokeBattleSocketEvents.GAME_PLAYER_DISCONNECT,
+                PokeBattleSocketEvents.GAME_PLAYER_READY,
+                PokeBattleSocketEvents.GAME_PLAYER_UNREADY
+            ])
+            console.log("Lobby.tsx events are muted")
+        }
+    }, []);
+
+    // Check if is defined
     if (null == game) {
         toast.custom((t) => <Toast t={t} level={'fatal'} msg={'Unable to process game'} /> );
         return (

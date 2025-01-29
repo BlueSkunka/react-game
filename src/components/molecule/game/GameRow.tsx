@@ -2,7 +2,7 @@ import {Button} from "@atom/buttons/Button.tsx";
 import {gameJoin} from "@repositories/gameRepository.ts";
 import toast from "react-hot-toast";
 import {Toast} from "@atom/toasts/Toast.tsx";
-import {useContext} from "react";
+import {useContext, useEffect} from "react";
 import {SocketContext} from "@contexts/SocketContext.tsx";
 import {PokeBattleGameActions} from "@blueskunka/poke-battle-package/dist/enums/PokeBattleGameActions";
 import {PokeBattleSocketEvents} from "@blueskunka/poke-battle-package/dist/enums/PokeBattleSocketEvents";
@@ -18,7 +18,20 @@ export function GameRow(
         setGame: React.Dispatch<React.SetStateAction<GameInterface | null>>
     }
 ) {
-    const {emitEvent} = useContext(SocketContext)
+    const {emitEvent, bulkMuteEvents} = useContext(SocketContext)
+
+    // Mute all available events on component destroy
+    useEffect(() => {
+        console.log("Component is rendered")
+
+        return () => {
+            console.log("Component is being destroy")
+            bulkMuteEvents([
+
+            ])
+            console.log("Component is now destroyed")
+        }
+    }, []);
 
     const joinGame = async () => {
         console.log("Joining game".concat(game.id))
