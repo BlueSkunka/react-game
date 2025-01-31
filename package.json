@@ -7,10 +7,11 @@
     "dev": "vite",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "bump": "yarn add @blueskunka/poke-battle-package"
   },
   "dependencies": {
-    "@blueskunka/poke-battle-package": "^2.0.1",
+    "@blueskunka/poke-battle-package": "^2.1.0",
     "dotenv": "^16.4.5",
     "formik": "^2.4.6",
     "mjml-dynamic": "^2.0.0",
