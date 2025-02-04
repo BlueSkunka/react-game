@@ -28,7 +28,7 @@ export function PokeBattle() {
         );
     }
 
-    if (game) {
+    if (game && game.state == "pending") {
         console.log("PokeBattle.tsx", game)
         return (
             <>

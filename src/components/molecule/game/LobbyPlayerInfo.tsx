@@ -1,14 +1,13 @@
 import * as React from "react";
-import {PokeBattleSocketEvents} from "@blueskunka/poke-battle-package/dist/enums/PokeBattleSocketEvents";
-import toast from "react-hot-toast";
-import {Toast} from "@atom/toasts/Toast.tsx";
 import {useContext, useEffect, useState} from "react";
+import {PokeBattleSocketEvents} from "@blueskunka/poke-battle-package/dist/enums/PokeBattleSocketEvents";
 import {SocketContext} from "@contexts/SocketContext.tsx";
 import {Badge} from "@atom/Badge.tsx";
 import {Button} from "@atom/buttons/Button.tsx";
-import Element = React.JSX.Element;
 import {AuthContext} from "@contexts/AuthContext.tsx";
 import {GameInterface} from "@interfaces/GameInterface.ts";
+import {MessageLevelEnum} from "../../../enums/MessageLevelEnum.ts";
+import Element = React.JSX.Element;
 
 export function LobbyPlayerInfo(
     {player, setPlayer2, game}: {
@@ -17,59 +16,63 @@ export function LobbyPlayerInfo(
         game: GameInterface | null
     }
 ) {
-    const {listenEvent, muteEvent, emitEvent, bulkMuteEvents} = useContext(SocketContext)
+    const {listenEvent, muteEvent, emitEvent, bulkMuteEvents, sendToast} = useContext(SocketContext)
     const {userId} = useContext(AuthContext)
     const [isReady, setIsReady] = useState<boolean>(false)
 
     // Mute all available events on destroy
     useEffect(() => {
-        console.log("LobbyPlayerInfo.tsx rendered")
+        // console.log("LobbyPlayerInfo.tsx rendered")
         return () => {
             console.log("Destroying component")
-            bulkMuteEvents([
-                PokeBattleSocketEvents.GAME_PLAYER_JOINED,
-                PokeBattleSocketEvents.GAME_PLAYER_READY,
-                PokeBattleSocketEvents.GAME_PLAYER_UNREADY
-            ])
-            console.log("Component is now destroyed")
+            bulkMuteEvents(new Map<string, (data: object) => void>([
+                [PokeBattleSocketEvents.GAME_PLAYER_JOINED, playerJoinedHandler],
+                [PokeBattleSocketEvents.GAME_PLAYER_READY, playerReadyHandler],
+                [PokeBattleSocketEvents.GAME_PLAYER_UNREADY, playerUnreadyHandler]
+            ]))
+            console.log("LobbyPlayerInfo is now destroyed")
         }
     }, []);
 
     console.log("Lobby player is ", player)
     console.log("Lobby creator is ", game?.creator)
 
-    // Si le joueur n'est pas définit correctement
+    // Si le joueur n'est pas défini correctement
     if ((!player || "" === player ) && userId != game?.creator) {
         setPlayer2(userId)
     }
 
+    //region Définition des handlers d'events
+    function playerReadyHandler(data: object) {
+        console.log("player is ready", data)
+        if (data.playerId == player) {
+            setIsReady(true)
+        }
+    }
+
+    function playerUnreadyHandler(data: object) {
+        console.log("player is unready", data)
+        if (data.playerId == player) {
+            setIsReady(false)
+        }
+    }
+
+    function playerJoinedHandler(data: object) {
+        console.log("player joined", data);
+        sendToast(`Player ${data.player} joined your lobby`, MessageLevelEnum.SUCCESS)
+        muteEvent(PokeBattleSocketEvents.GAME_PLAYER_JOINED, playerJoinedHandler)
+        setPlayer2(data.player)
+    }
+    //endregion
+
     // Si le joueur n'est pas connecté
     if (!player || "" === player) {
-        listenEvent(PokeBattleSocketEvents.GAME_PLAYER_JOINED, (data: object) => {
-            console.log("player joined", data);
-            toast.custom((t) => <Toast t={t} msg={`Player ${data.player} joined your lobby !`} />)
-            muteEvent(PokeBattleSocketEvents.GAME_PLAYER_JOINED)
-            setPlayer2(data.player)
-
-            muteEvent(PokeBattleSocketEvents.GAME_PLAYER_JOINED)
-        })
+        listenEvent(PokeBattleSocketEvents.GAME_PLAYER_JOINED, playerJoinedHandler)
     } else if (player != userId) {
         console.log("player is not user", player, userId)
         // Le joueur est connecté et n'est pas l'utilisateur actuel
-        listenEvent(PokeBattleSocketEvents.GAME_PLAYER_READY, (data: object) => {
-            console.log("player is ready", data)
-            if (data.playerId == player) {
-                setIsReady(true)
-            }
-        })
-
-        listenEvent(PokeBattleSocketEvents.GAME_PLAYER_UNREADY, (data: object) => {
-            console.log("player is unready", data)
-            if (data.playerId == player) {
-                setIsReady(false)
-            }
-        })
-
+        listenEvent(PokeBattleSocketEvents.GAME_PLAYER_READY, playerReadyHandler)
+        listenEvent(PokeBattleSocketEvents.GAME_PLAYER_UNREADY, playerUnreadyHandler)
     }
 
     // Envoie du statut du joueur

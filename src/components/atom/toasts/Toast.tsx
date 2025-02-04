@@ -1,11 +1,12 @@
 import toast from "react-hot-toast";
 import {bgVariants, borderVariants} from "@constants/variants/ColorVariants.ts";
+import {MessageLevelEnum} from "../../../enums/MessageLevelEnum.ts";
 
 export function Toast(
     {t, level, msg}:
     {
         t: never,
-        level: 'primary' | 'secondary' | 'info' | 'success' | 'warning' | 'danger' | 'fatal',
+        level: MessageLevelEnum,
         msg: string
     }
 ) {

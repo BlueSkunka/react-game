@@ -1,14 +1,14 @@
 import {useContext, useEffect, useState} from "react";
 import {GameInterface} from "@interfaces/GameInterface.ts";
 import {LobbyPlayerInfo} from "@molecule/game/LobbyPlayerInfo.tsx";
-import {BattleScreen} from "@organism/game/BattleScreen.tsx";
+import {BattleStartButton} from "@organism/game/BattleStartButton.tsx";
 import {SocketContext} from "@contexts/SocketContext.tsx";
 import {PokeBattleSocketEvents} from "@blueskunka/poke-battle-package/dist/enums/PokeBattleSocketEvents";
 import {AuthContext} from "@contexts/AuthContext.tsx";
-import toast from "react-hot-toast";
-import {Toast} from "@atom/toasts/Toast.tsx";
 import {Button} from "@atom/buttons/Button.tsx";
 import {Error500} from "@errors/Error500.tsx";
+import {PokeBattleGameState} from "@blueskunka/poke-battle-package/dist/enums/PokeBattleGameState";
+import {MessageLevelEnum} from "../../../enums/MessageLevelEnum.ts";
 
 export function Lobby(
     {game, setGame} :
@@ -17,27 +17,25 @@ export function Lobby(
         setGame:  React.Dispatch<React.SetStateAction<GameInterface | null>>
     }
 ) {
-    const {emitEvent, muteEvent, listenEvent, bulkMuteEvents} = useContext(SocketContext);
+    const {emitEvent, muteEvent, listenEvent, bulkMuteEvents, sendToast} = useContext(SocketContext);
     const {userId} = useContext(AuthContext)
 
     // Mute available on destroy
     useEffect(() => {
-        console.log("Lobby.tsx is rendered")
-
+        // console.info(ComponentLogEnums.MOUNTING)
+        // console.info(ComponentLogEnums.MOUNTED)
         return () => {
-            console.log("Lobby.tsx is muting event")
-            bulkMuteEvents([
-                PokeBattleSocketEvents.GAME_PLAYER_DISCONNECT,
-                PokeBattleSocketEvents.GAME_PLAYER_READY,
-                PokeBattleSocketEvents.GAME_PLAYER_UNREADY
-            ])
-            console.log("Lobby.tsx events are muted")
+            // console.info(ComponentLogEnums.DESTROYING)
+            bulkMuteEvents(new Map<string, (data: object) => void>([
+                [PokeBattleSocketEvents.DISCONNECT, playerDisconnectedHandler]
+            ]) )
+            // console.info(ComponentLogEnums.DESTROYED)
         }
     }, []);
 
     // Check if is defined
     if (null == game) {
-        toast.custom((t) => <Toast t={t} level={'fatal'} msg={'Unable to process game'} /> );
+        sendToast('Unable to process game', MessageLevelEnum.FATAL)
         return (
             <>
                 <Error500 />
@@ -48,6 +46,21 @@ export function Lobby(
     // eslint-disable-next-line react-hooks/rules-of-hooks
     const [player2, setPlayer2] = useState<string>(game.player)
 
+    //region Event callback handlers
+    function playerDisconnectedHandler(data: object) {
+        console.log("player left", data)
+
+        // Si le joueur qui déconnecte est le créateur
+        // Sinon le joueur 2 a quitté la partie
+        if (game?.creator == data.playerId) {
+            sendToast('La partie est annulée', MessageLevelEnum.DANGER)
+            setGame(null)
+        } else {
+            setPlayer2("");
+        }
+    }
+    //endregion
+
     // Leave game handler
     const leaveGame = () => {
         console.log("Leave game");
@@ -55,32 +68,23 @@ export function Lobby(
             playerId: userId,
             gameId: game.id
         })
-        muteEvent(PokeBattleSocketEvents.GAME_PLAYER_DISCONNECT)
+        muteEvent(PokeBattleSocketEvents.GAME_PLAYER_DISCONNECT, playerDisconnectedHandler)
         setGame(null)
     }
 
     // Player disconnect handler
-    listenEvent(PokeBattleSocketEvents.GAME_PLAYER_DISCONNECT, (data: object) => {
-        console.log("player left", data)
+    listenEvent(PokeBattleSocketEvents.GAME_PLAYER_DISCONNECT, playerDisconnectedHandler)
 
-        // Si le joueur qui déconnecte est le créateur
-        // Sinon le joueur 2 a quitté la partie
-        if (game.creator == data.playerId) {
-            toast.custom((t) => <Toast t={t} level={'danger'} msg={'La partie est annulée'}  />)
-            setGame(null)
-        } else {
-            setPlayer2("");
-        }
-    })
-
-    // Le joueur est connecté
-    listenEvent(PokeBattleSocketEvents.GAME_PLAYER_READY, (data: object) => {
-        console.log("player is ready", data)
-    })
-
-    listenEvent(PokeBattleSocketEvents.GAME_PLAYER_UNREADY, (data: object) => {
-        console.log("player is unready", data)
-    })
+    // Display battle start button or game screen
+    let component;
+    switch (game.state) {
+        case PokeBattleGameState.PLAYING:
+            component = "prout"
+            break;
+        default :
+            component = <BattleStartButton creator={game.creator} player={player2}/>
+            break;
+    }
 
     return (
         <>
@@ -105,7 +109,7 @@ export function Lobby(
                     <LobbyPlayerInfo player={game.creator} setPlayer2={setPlayer2} game={game} />
                     <LobbyPlayerInfo player={player2} setPlayer2={setPlayer2} game={game} />
                 </div>
-                <BattleScreen/>
+                {component}
             </div>
         </>
     )

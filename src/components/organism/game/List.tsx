@@ -1,20 +1,14 @@
-import {SetStateAction, useContext, useEffect, useState} from "react";
+import * as React from "react";
+import {useContext, useEffect, useState} from "react";
 import {AuthContext} from "@contexts/AuthContext.tsx";
-import {useNavigate} from "react-router-dom";
-import {gameJoin, gameList} from "@repositories/gameRepository.ts";
+import {gameList} from "@repositories/gameRepository.ts";
 import toast from "react-hot-toast";
 import {Toast} from "@atom/toasts/Toast.tsx";
 import {GameInterface} from "@interfaces/GameInterface.ts";
 import {GameRow} from "@molecule/game/GameRow.tsx";
 import {Button} from "@atom/buttons/Button.tsx";
-import {PokeBattleSocketEvents} from "@blueskunka/poke-battle-package/dist/enums/PokeBattleSocketEvents";
 import {SocketContext} from "@contexts/SocketContext.tsx";
-import {Field, Form, Formik} from "formik";
-import * as Yup from 'yup';
-import {IconPassword} from "@atom/icons/IconPassword.tsx";
-import {TextInput} from "@atom/inputs/TextInput.tsx";
-import {PokeBattleGameActions} from "@blueskunka/poke-battle-package/dist/enums/PokeBattleGameActions";
-import * as React from "react";
+import {MessageLevelEnum} from "../../../enums/MessageLevelEnum.ts";
 
 export function List(
     {setGame}:
@@ -23,7 +17,7 @@ export function List(
     }
 ) {
     const {userId, token} = useContext(AuthContext)
-    const {bulkMuteEvents} = useContext(SocketContext);
+    const {sendToast} = useContext(SocketContext);
     const [games, setGames] = useState<GameInterface[]>([])
 
     // Mute all available events on component destroy
@@ -32,9 +26,6 @@ export function List(
 
         return () => {
             console.log("Component is being destroy")
-            bulkMuteEvents([
-
-            ])
             console.log("Component is now destroyed")
         }
     }, []);
@@ -43,6 +34,7 @@ export function List(
         const response = await gameList(token);
         if (response.error) {
             toast.custom((t) => <Toast t={t} msg={"Erreur lors de la récupération de la partie"} level={"danger"}/>)
+            sendToast("Erreur lors de la récupération de la partie", MessageLevelEnum.DANGER)
         } else {
             const gamesArray: GameInterface[] = response;
             setGames(gamesArray);
@@ -51,8 +43,8 @@ export function List(
 
     // Récupération des parties
     useEffect(() => {
-        listGames()
-    }, []);
+        listGames().then(r => r)
+    }, [listGames]);
 
     // Formulaire pour rejoindre une partie
     // const joinGame = async (gameId: string) => {
@@ -93,19 +85,9 @@ export function List(
     //     );
     // }
 
-    const array: JSX.Element[] = [];
-    games.forEach((game) => {
-        array.push(
-            <GameRow game={game}
-                     token={token}
-                     userId={userId}
-                     setGame={setGame}/>
-        )
-    })
-
     return (
         <>
-            <div className="flex inline">
+            <div className="flex">
                 <h2>Games list</h2>
                 <Button label={'Refresh'}
                         btnWidth={"btn-sm"}
@@ -124,7 +106,14 @@ export function List(
                         </tr>
                     </thead>
                     <tbody>
-                        {array}
+                        {games.map((item) => (
+                            <div>
+                                <GameRow game={item}
+                                         token={token}
+                                         userId={userId}
+                                         setGame={setGame}/>
+                            </div>
+                        ))}
                     </tbody>
                 </table>
             </div>
