@@ -6,6 +6,8 @@ import {useNavigate} from "react-router-dom";
 import {AuthContext} from "@contexts/AuthContext.tsx";
 import {Lobby} from "@organism/game/Lobby.tsx";
 import {GameInterface} from "@interfaces/GameInterface.ts";
+import {PokeBattleGameState} from "@blueskunka/poke-battle-package/dist/enums/PokeBattleGameState";
+import {PokeBattleScreen} from "@organism/game/PokeBattleScreen.tsx";
 
 export function PokeBattle() {
     const {isAuthenticated} = useContext(AuthContext)
@@ -28,13 +30,28 @@ export function PokeBattle() {
         );
     }
 
-    if (game && game.state == "pending") {
+    if (game ) {
         console.log("PokeBattle.tsx", game)
-        return (
-            <>
-                <Lobby game={game} setGame={setGame}/>
-            </>
-        )
+        switch (game.state) {
+            case PokeBattleGameState.PENDING:
+                return (
+                    <>
+                        <Lobby game={game} setGame={setGame}/>
+                    </>
+                )
+            case PokeBattleGameState.PLAYING:
+                return (
+                    <>
+                        <PokeBattleScreen game={game}/>
+                    </>
+                )
+            default :
+                return (
+                    <>
+                        <Error404 />
+                    </>
+                )
+        }
     }
 
     return (
