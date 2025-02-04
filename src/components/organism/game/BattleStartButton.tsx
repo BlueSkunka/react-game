@@ -5,13 +5,14 @@ import {PokeBattleSocketEvents} from "@blueskunka/poke-battle-package/dist/enums
 import {ComponentLogEnums} from "../../../enums/ComponentLogEnums.ts";
 
 export function BattleStartButton(
-    {creator, player}:
+    {creator, player, gameId}:
     {
         creator: string,
-        player: string | null
+        player: string | null,
+        gameId: string
     }
 ) {
-    const {listenEvent, bulkMuteEvents} = useContext(SocketContext)
+    const {listenEvent, bulkMuteEvents, emitEvent} = useContext(SocketContext)
     const [isCreatorReady, setIsCreatorReady] = useState<boolean>(false)
     const [isPlayerReady, setIsPlayerReady] = useState<boolean>(false)
 
@@ -65,7 +66,11 @@ export function BattleStartButton(
 
     // Définition du bouton de lancement de combat
     const startBattleHandler = () => {
-        console.log("Battle start !")}
+        console.log("Battle start !")
+        emitEvent(PokeBattleSocketEvents.GAME_START, {
+            gameId: gameId
+        })
+    }
     const isStartBattleButtonDisabled = isReadyToStart ? '' : 'btn-disabled';
 
     return (

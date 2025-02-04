@@ -27,7 +27,8 @@ export function Lobby(
         return () => {
             // console.info(ComponentLogEnums.DESTROYING)
             bulkMuteEvents(new Map<string, (data: object) => void>([
-                [PokeBattleSocketEvents.DISCONNECT, playerDisconnectedHandler]
+                [PokeBattleSocketEvents.DISCONNECT, playerDisconnectedHandler],
+                [PokeBattleSocketEvents.GAME_START, gameStartHandler]
             ]) )
             // console.info(ComponentLogEnums.DESTROYED)
         }
@@ -59,6 +60,14 @@ export function Lobby(
             setPlayer2("");
         }
     }
+
+
+    const gameStartHandler = (data: object) => {
+        console.log("Game start", data)
+        muteEvent(PokeBattleSocketEvents.GAME_START, gameStartHandler)
+
+        setGame(data.game)
+    }
     //endregion
 
     // Leave game handler
@@ -74,6 +83,7 @@ export function Lobby(
 
     // Player disconnect handler
     listenEvent(PokeBattleSocketEvents.GAME_PLAYER_DISCONNECT, playerDisconnectedHandler)
+    listenEvent(PokeBattleSocketEvents.GAME_START, gameStartHandler)
 
     // Display battle start button or game screen
     let component;
@@ -82,7 +92,7 @@ export function Lobby(
             component = "prout"
             break;
         default :
-            component = <BattleStartButton creator={game.creator} player={player2}/>
+            component = <BattleStartButton creator={game.creator} player={player2} gameId={game.id}/>
             break;
     }
 
