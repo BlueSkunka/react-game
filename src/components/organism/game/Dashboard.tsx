@@ -1,5 +1,5 @@
 import * as React from "react";
-import {useContext, useEffect} from "react";
+import {useContext, useEffect, useState} from "react";
 import {AuthContext} from "@contexts/AuthContext.tsx";
 import {SocketContext} from "@contexts/SocketContext.tsx";
 import {Button} from "@atom/buttons/Button.tsx";
@@ -8,6 +8,10 @@ import {PokeBattleSocketEvents} from "@blueskunka/poke-battle-package/dist/enums
 import {GameInterface} from "@interfaces/GameInterface.ts";
 import {List} from "@organism/game/List.tsx";
 import {MessageLevelEnum} from "../../../enums/MessageLevelEnum.ts";
+import {PageEnums} from "../../../enums/PageEnums.ts";
+import Element = React.JSX.Element;
+import {Error500} from "@errors/Error500.tsx";
+import {BuildTeam} from "@organism/game/BuildTeam.tsx";
 
 export function Dashboard(
     {setGame}: {
@@ -16,6 +20,7 @@ export function Dashboard(
 ) {
     const {userId, token} = useContext(AuthContext)
     const {emitEvent, sendToast} = useContext(SocketContext)
+    const [page, setPage] = useState<string>(PageEnums.LIST)
 
     // Mute all available event on component destroy
     useEffect(() => {
@@ -41,17 +46,42 @@ export function Dashboard(
         }
     }
 
+    let component: Element;
+    switch (page) {
+        case PageEnums.LIST:
+            component = <List setGame={setGame} />
+            break  ;
+        case PageEnums.NEW_TEAM:
+            component = <BuildTeam />
+            break
+        default:
+            component = <Error500 />
+            break
+    }
+
     return (
         <>
-            <div className="mb-4">
+            <div className="mb-4 flex">
                 <Button label={'Create game'}
                         click={() => createGame()}
                         btnWidth={"btn-wide"}
                         type={'button'}
                         level={'primary'}
                         disabled={""} />
+                <Button label={'Search game'}
+                        click={() => setPage(PageEnums.LIST)}
+                        btnWidth={"btn-wide"}
+                        type={'button'}
+                        level={'secondary'}
+                        disabled={""} />
+                <Button label={'Build a team'}
+                        click={() => setPage(PageEnums.NEW_TEAM)}
+                        btnWidth={"btn-wide"}
+                        type={'button'}
+                        level={'secondary'}
+                        disabled={""} />
             </div>
-            <List setGame={setGame} />
+            {component}
         </>
     );
 }

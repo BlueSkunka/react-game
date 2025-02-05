@@ -1,4 +1,10 @@
-export function Card({title, children}) {
+export function Card(
+    {title, children}:
+    {
+        title: string,
+        children: any
+    }
+){
     return (
         <>
             <div className="card bg-base w-96 shadow-xl">
