@@ -71,8 +71,7 @@ export function BattleStartButton(
             gameId: gameId
         })
     }
-    // const isStartBattleButtonDisabled = isReadyToStart ? '' : 'btn-disabled';
-    const isStartBattleButtonDisabled = '';
+    const isStartBattleButtonDisabled = isReadyToStart ? '' : 'btn-disabled';
     return (
         <>
             <div className="card bg-base-100 w-full shadow-xl flex items-center">
