@@ -12,6 +12,7 @@ import {PageEnums} from "../../../enums/PageEnums.ts";
 import Element = React.JSX.Element;
 import {Error500} from "@errors/Error500.tsx";
 import {BuildTeam} from "@organism/game/BuildTeam.tsx";
+import {History} from "@organism/game/History.tsx";
 
 export function Dashboard(
     {setGame}: {
@@ -54,6 +55,9 @@ export function Dashboard(
         case PageEnums.NEW_TEAM:
             component = <BuildTeam />
             break
+        case PageEnums.HISTORY:
+            component = <History />
+            break
         default:
             component = <Error500 />
             break
@@ -61,7 +65,7 @@ export function Dashboard(
 
     return (
         <>
-            <div className="mb-4 flex">
+            <div className="mb-4 flex flex-wrap">
                 <Button label={'Create game'}
                         click={() => createGame()}
                         btnWidth={"btn-wide"}
@@ -80,6 +84,12 @@ export function Dashboard(
                         type={'button'}
                         level={'secondary'}
                         disabled={""} />
+                <Button btnWidth={'btn-wide'}
+                        type={'button'}
+                        level={'secondary'}
+                        label={'Historique'}
+                        click={() => setPage(PageEnums.HISTORY)}
+                        disabled={''} />
             </div>
             {component}
         </>
