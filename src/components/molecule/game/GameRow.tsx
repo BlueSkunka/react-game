@@ -26,9 +26,8 @@ export function GameRow(
 
         return () => {
             console.log("Component is being destroy")
-            bulkMuteEvents([
-
-            ])
+            bulkMuteEvents(new Map<string, (data: object) => void>([
+            ]) )
             console.log("Component is now destroyed")
         }
     }, []);
