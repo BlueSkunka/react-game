@@ -99,12 +99,12 @@ export function Lobby(
     return (
         <>
             <div className="flex flex-col gap-2">
-                <div className="card bg-base-100 w-full shadow-xl">
+                <div className="card bg-base-100 w-full shadow-xl flex flex-col-reverse md:lg:flex-row">
                     <div className="card-body items-center text-center">
                         <h2 className="card-title">Partie : {game.id}</h2>
                         <p>Joining code : {game.joiningCode}</p>
                     </div>
-                    <div className="absolute top-1 right-1">
+                    <div className="">
                         <Button
                             btnWidth={'btn-lg'}
                             type={'button'}

@@ -115,7 +115,7 @@ export function LobbyPlayerInfo(
             <>
                 <div className="card bg-base-100 w-1/2 shadow-xl">
                     <div className="card-body items-center text-center">
-                        <h2 className="card-title">
+                        <h2 className="card-title flex flex-col md:lg:flex-row">
                             Player : {player}
                             {badge}
                         </h2>
@@ -132,7 +132,7 @@ export function LobbyPlayerInfo(
             <>
                 <div className="card bg-base-100 w-1/2 shadow-xl">
                     <div className="card-body items-center text-center">
-                        <h2 className="card-title">
+                        <h2 className="card-title  flex flex-col md:lg:flex-row">
                             Player : {player}
                             {badge}
                         </h2>

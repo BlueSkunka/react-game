@@ -6,7 +6,7 @@ export function Badge(
 ) {
     return (
         <>
-            <div className={`badge bg-${level}`}>
+            <div className={`bg-${level} bordered p-2`}>
                 {content}
             </div>
         </>

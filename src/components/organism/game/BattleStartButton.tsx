@@ -3,6 +3,7 @@ import {useContext, useEffect, useState} from "react";
 import {SocketContext} from "@contexts/SocketContext.tsx";
 import {PokeBattleSocketEvents} from "@blueskunka/poke-battle-package/dist/enums/PokeBattleSocketEvents";
 import {ComponentLogEnums} from "../../../enums/ComponentLogEnums.ts";
+import {AuthContext} from "@contexts/AuthContext.tsx";
 
 export function BattleStartButton(
     {creator, player, gameId}:
@@ -12,6 +13,7 @@ export function BattleStartButton(
         gameId: string
     }
 ) {
+    const {userId} = useContext(AuthContext)
     const {listenEvent, bulkMuteEvents, emitEvent} = useContext(SocketContext)
     const [isCreatorReady, setIsCreatorReady] = useState<boolean>(false)
     const [isPlayerReady, setIsPlayerReady] = useState<boolean>(false)
@@ -71,7 +73,7 @@ export function BattleStartButton(
             gameId: gameId
         })
     }
-    const isStartBattleButtonDisabled = isReadyToStart ? '' : 'btn-disabled';
+    const isStartBattleButtonDisabled = isReadyToStart && userId === creator ? '' : 'btn-disabled';
     return (
         <>
             <div className="card bg-base-100 w-full shadow-xl flex items-center">
