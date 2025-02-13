@@ -8,8 +8,8 @@ export function GameInfos(
 ) {
     return (
         <>
-            <div className="flex justify-between m-2">
-                <div className="creator-infos bg-primary p-2 w-1/2">
+            <div className="flex justify-between m-2 flex-col md:lg:flex-row">
+                <div className="creator-infos bg-primary p-2 w-full md:lg:w-1/2">
                     <div className="flex flex-col">
                         <span>
                             {game.creator}
@@ -22,7 +22,7 @@ export function GameInfos(
                     </div>
                 </div>
                 <span className="versus"></span>
-                <div className="player-infos bg-secondary  p-2 w-1/2">
+                <div className="player-infos bg-secondary  p-2 w-full md:lg:w-1/2">
                     <div className="flex flex-col">
                         <span>
                             {game.player}

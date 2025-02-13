@@ -55,11 +55,11 @@ export function GameRow(
                     {game.id}
                 </td>
                 <td>
-                    <Button label={"Join game"}
+                    <Button label={"Join"}
                             btnWidth={"btn-sm"}
                             click={joinGame}
                             type={'button'}
-                            level={"secondary"}
+                            level={"primary"}
                             disabled={""} />
                 </td>
             </tr>
