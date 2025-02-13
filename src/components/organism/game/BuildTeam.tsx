@@ -225,7 +225,7 @@ export function BuildTeam() {
                     })}
                 >
                     <Form className={'space-y-4'}>
-                        <div className={'flex justify-between'}>
+                        <div className={'flex flex-col-reverse justify-between md:lg:flex-row'}>
                             <Field name={"name"} type={"text"} placeholder={"Team name"} icon={<IconUser />} component={TextInput} className={"basis-3/4 mt-2"}/>
                             <Button btnWidth={'btn-wide'} type={'submit'} level={'success'} label={'Save'} click={() => {} } disabled={''} />
                         </div>
@@ -236,7 +236,7 @@ export function BuildTeam() {
                                     <Field name={"pokemon_one"} type={"select"} placeholder={"Choisir un pokémon"} icon={<IconUser />} as={"select"} onChange={pokemonOneSelectedHandler} className={"select select-bordered w-full max-w-xs"}>
                                         {optionsPokemon}
                                     </Field>
-                                    <div className="flex space-x-4">
+                                    <div className="flex md:lg:space-x-4 space-y-2 md:lg:space-y-0 flex-wrap md:lg:flex-row md:lg:flex-nowrap">
                                         <Field name={"pokemon_one_attack_one"} type={"select"} placeholder={"Choisir un pokémon"} icon={<IconUser />} as={"select"} className={"select select-bordered w-full max-w-xs"}>
                                             {optionsPokemonOneAttacks}
                                         </Field>
@@ -251,7 +251,7 @@ export function BuildTeam() {
                                         </Field>
                                     </div>
                                 </section>
-                                <section id="pokemon_one_image">
+                                <section id="pokemon_one_image" className={'hidden md:lg:flex'}>
                                     <img src={`/sprites/${pokemonOne?.sprite}_front.png`} alt={pokemonOne?.name}/>
                                 </section>
                             </section>
@@ -264,7 +264,7 @@ export function BuildTeam() {
                                     <Field name={"pokemon_two"} type={"select"} placeholder={"Choisir un pokémon"} icon={<IconUser />} as={"select"} onChange={pokemonTwoSelectedHandler} className={"select select-bordered w-full max-w-xs"}>
                                         {optionsPokemon}
                                     </Field>
-                                    <div className="flex space-x-4">
+                                    <div className="flex md:lg:space-x-4 space-y-2 md:lg:space-y-0 flex-wrap md:lg:flex-row md:lg:flex-nowrap">
                                         <Field name={"pokemon_two_attack_one"} type={"select"} placeholder={"Choisir un pokémon"} icon={<IconUser />} as={"select"} className={"select select-bordered w-full max-w-xs"}>
                                             {optionsPokemonTwoAttacks}
                                         </Field>
@@ -279,7 +279,7 @@ export function BuildTeam() {
                                         </Field>
                                     </div>
                                 </section>
-                                <section id="pokemon_two_image">
+                                <section id="pokemon_two_image" className={'hidden md:lg:flex'}>
                                     <img src={`/sprites/${pokemonTwo?.sprite}_front.png`} alt={pokemonTwo?.name}/>
                                 </section>
                             </section>
@@ -292,7 +292,7 @@ export function BuildTeam() {
                                     <Field name={"pokemon_three"} type={"select"} placeholder={"Choisir un pokémon"} icon={<IconUser />} as={"select"} onChange={pokemonThreeSelectedHandler} className={"select select-bordered w-full max-w-xs"}>
                                         {optionsPokemon}
                                     </Field>
-                                    <div className="flex space-x-4">
+                                    <div className="flex md:lg:space-x-4 space-y-2 md:lg:space-y-0 flex-wrap md:lg:flex-row md:lg:flex-nowrap">
                                         <Field name={"pokemon_three_attack_one"} type={"select"} placeholder={"Choisir un pokémon"} icon={<IconUser />} as={"select"} className={"select select-bordered w-full max-w-xs"}>
                                             {optionsPokemonThreeAttacks}
                                         </Field>
@@ -307,7 +307,7 @@ export function BuildTeam() {
                                         </Field>
                                     </div>
                                 </section>
-                                <section id="pokemon_three_image">
+                                <section id="pokemon_three_image" className={'hidden md:lg:flex'}>
                                     <img src={`/sprites/${pokemonThree?.sprite}_front.png`} alt={pokemonThree?.name}/>
                                 </section>
                             </section>

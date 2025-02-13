@@ -87,8 +87,8 @@ export function List(
 
     return (
         <>
-            <div className="flex">
-                <h2>Games list</h2>
+            <div className="flex items-center space-x-2">
+                <h2 className={'text-2xl'}>Games list</h2>
                 <Button label={'Refresh'}
                         btnWidth={"btn-sm"}
                         click={listGames}
@@ -107,12 +107,10 @@ export function List(
                     </thead>
                     <tbody>
                         {games.map((item) => (
-                            <div>
-                                <GameRow game={item}
-                                         token={token}
-                                         userId={userId}
-                                         setGame={setGame}/>
-                            </div>
+                            <GameRow game={item}
+                                     token={token}
+                                     userId={userId}
+                                     setGame={setGame}/>
                         ))}
                     </tbody>
                 </table>

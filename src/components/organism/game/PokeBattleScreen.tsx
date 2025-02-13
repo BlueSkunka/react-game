@@ -1,5 +1,7 @@
 import {GameInterface} from "@interfaces/GameInterface.ts";
 import {GameInfos} from "@organism/game/battle/GameInfos.tsx";
+import {useContext, useState} from "react";
+import {AuthContext} from "@contexts/AuthContext.tsx";
 
 export function PokeBattleScreen(
     {game}:
@@ -7,12 +9,14 @@ export function PokeBattleScreen(
         game: GameInterface
     }
 ) {
-    console.log("PokeBattleScreen", game)
+    const {userId} = useContext(AuthContext)
+    const [isCreator, setIsCreator] = useState<boolean>(game.creator === userId)
+    console.log("PokeBattleScreen", game, isCreator)
 
     return (
         <>
             <div className="flex flex-col min-h-[calc(100vh-120px)]">
-                <div className="flex">
+                <div className="flex flex-col-reverse md:lg:flex-row">
                     <div className="w-4/5">
                         <GameInfos game={game} />
                     </div>

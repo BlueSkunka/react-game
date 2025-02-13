@@ -16,8 +16,10 @@ export function AuthLayout() {
     return (
         <div className="container px-2 py-2.5 bg-base-200 mx-auto flex flex-col justify-center items-center">
             <img className="w-2/3" src={pokebattle} alt="PokeBattle"/>
-            <div className="flex">
-                <PokemonRandom />
+            <div className="flex flex-col md:lg:flex-row space-y-2">
+                <div>
+                    <PokemonRandom />
+                </div>
                 <section className={'basis-1/2'}>
                     <AuthRoutingButtons/>
                     <Outlet />
