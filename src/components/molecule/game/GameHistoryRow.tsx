@@ -7,7 +7,7 @@ export function GameHistoryRow(
     const isWinner = game.winner == userId
     return (
         <>
-            <div className={`flex items-center space-x-4 justify-evenly align-middle bordered border-2 rounded-md ${isWinner ? 'bg-success' : 'bg-error'} brightness-125`}>
+            <div className={`flex flex-wrap items-center space-x-4 justify-evenly align-middle bordered border-2 rounded-md ${isWinner ? 'bg-success' : 'bg-error'} brightness-125`}>
                 <div className={'flex items-center space-x-4'}>
                     <GenericImage image={isWinner ? 'pikachu' : 'fantominus'} alt={isWinner ? 'pikachu' : 'fantominus'} className={'w-16 mr-2'} />
                     {isWinner ? 'Victory' : 'Defeat'}
